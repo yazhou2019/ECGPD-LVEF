@@ -1,0 +1,153 @@
+import numpy as np
+from sklearn.metrics import roc_auc_score, f1_score, average_precision_score, accuracy_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import Pipeline
+
+import sklearn.metrics
+import random
+# load data
+from ECG_preprocess_LVEF import (y_train, y_val, y_test,
+                                 X_train_STMEM_original, X_val_STMEM_original, X_test_STMEM_original,
+                                 label_names as shd)
+
+
+use_index = 0 # corresponds to low LVEF
+
+SEED = 42
+random.seed(SEED)
+np.random.seed(SEED)
+
+y_train_j = y_train[:, use_index] if y_train.shape[1] > 1 else y_train
+y_val_j = y_val[:, use_index] if y_val.shape[1] > 1 else y_val
+y_test_j = y_test[:, use_index] if y_test.shape[1] > 1 else y_test
+
+print(f"\nuse_index={use_index}, corresponding to {shd[use_index]}")
+print(f"\ndata size:")
+
+
+X_train = X_train_STMEM_original
+X_val = X_val_STMEM_original
+X_test = X_test_STMEM_original
+
+
+print("\nLogistic Regression (L2 penalty) model training...")
+C_range = [0.001, 0.01, 0.1, 1.0, 10.0]
+
+val_auc_best = 0
+C_best = 0
+solver_best = ''
+class_weight_best = None
+lr_model_best = None
+
+# hyper-parameter tuning
+for C in C_range:
+    lr_model = Pipeline([
+        ('scaler', StandardScaler()),
+        ('lr', LogisticRegression(
+            penalty='l2',
+            C=C,
+            solver='lbfgs',
+            max_iter=1000,
+            random_state=42
+        ))
+    ])
+
+    # model training
+    lr_model.fit(X_train, y_train_j)
+
+    # validation results
+    y_pred_proba_val = lr_model.predict_proba(X_val)
+    auc_val = roc_auc_score(y_val_j, y_pred_proba_val[:, 1])
+    auprc_val = average_precision_score(y_val_j, y_pred_proba_val[:, 1])
+
+    if auc_val > val_auc_best:
+        val_auc_best = auc_val
+        C_best = C
+        lr_model_best = lr_model
+
+
+y_pred_proba_val = lr_model_best.predict_proba(X_val)
+auc_val = roc_auc_score(y_val_j, y_pred_proba_val[:, 1])
+auprc_val = average_precision_score(y_val_j, y_pred_proba_val[:, 1])
+
+
+y_pred_proba = lr_model_best.predict_proba(X_test)
+auc = roc_auc_score(y_test_j, y_pred_proba[:, 1])
+auprc = average_precision_score(y_test_j, y_pred_proba[:, 1])
+
+print(f"\n=== Logistic Regression Model evaluation ({shd[use_index]}) ===")
+print(f"Best parameters: C={C_best}, solver={solver_best}, class_weight={class_weight_best}")
+print(f"AUROC: test={auc:.4f} val={auc_val:.4f}")
+print(f"AUPRC: test={auprc:.4f} val={auprc_val:.4f}")
+
+################
+# evaluation
+################
+# the data of echonext paper
+def bootstrap_score(y_true, y_pred, prc=False, n=1000, base_fn=None):
+    if base_fn is None:
+        base_fn = sklearn.metrics.average_precision_score if prc else sklearn.metrics.roc_auc_score
+    fn = lambda a, b: base_fn(a, b) * 100
+    y_true = np.array(y_true)
+    y_pred = np.array(y_pred)
+    score = fn(y_true, y_pred)
+    bootstrap_scores = []
+    rng = np.random.default_rng(0)
+    for _ in range(n):
+        idx = rng.choice(len(y_true), len(y_true))
+        bootstrap_scores.append(fn(y_true[idx], y_pred[idx]))
+
+    lower = np.percentile(bootstrap_scores, 2.5)
+    upper = np.percentile(bootstrap_scores, 97.5)
+    return score, lower, upper, f'{score:4.1f} ({lower:4.1f}-{upper:4.1f})'
+
+def bootstrap_f1_score(y_true_val, y_pred_proba_val, y_true_test, y_pred_proba_test, n=1000, random_state=0):
+    precision, recall, thresholds = sklearn.metrics.precision_recall_curve(y_true_val, y_pred_proba_val)
+    f1_scores = 2 * (precision * recall) / (precision + recall + 1e-8)
+
+    best_idx = np.argmax(f1_scores[:-1])
+    best_threshold = thresholds[best_idx]
+
+    y_pred_binary_test = (y_pred_proba_test >= best_threshold).astype(int)
+    score = f1_score(y_true_test, y_pred_binary_test) * 100
+
+    bootstrap_scores = []
+    rng = np.random.default_rng(random_state)
+
+    for _ in range(n):
+        idx = rng.choice(len(y_true_test), len(y_true_test))
+
+        y_true_boot = y_true_test[idx]
+        y_pred_proba_boot = y_pred_proba_test[idx]
+        y_pred_binary_boot = (y_pred_proba_boot >= best_threshold).astype(int)
+
+        if len(np.unique(y_true_boot)) >= 2:
+            boot_score = f1_score(y_true_boot, y_pred_binary_boot) * 100
+            bootstrap_scores.append(boot_score)
+        else:
+            bootstrap_scores.append(0.0)
+
+    lower = np.percentile(bootstrap_scores, 2.5)
+    upper = np.percentile(bootstrap_scores, 97.5)
+
+    result_str = f'{score:4.1f} ({lower:4.1f}-{upper:4.1f})'
+
+    return score, lower, upper, result_str, best_threshold
+
+# Bootstrap evaluation
+auc_score_model, auc_lower_model, auc_upper_model, auc_tmpt_model = bootstrap_score(y_test_j, y_pred_proba[:, 1], n=1000, prc=False)
+auprc_score_model, auprc_lower_model, auprc_upper_model, auprc_tmpt_model = bootstrap_score(y_test_j, y_pred_proba[:, 1], n=1000, prc=True)
+f1_score_model, f1_lower_model, f1_upper_model, f1_tmpt_model, best_threshold = bootstrap_f1_score(y_val_j, y_pred_proba_val[:, 1], y_test_j, y_pred_proba[:, 1], n=1000, random_state=42)
+
+print(f"AUROC: {auc_tmpt_model}")
+print(f"AUPRC: {auprc_tmpt_model}")
+print(f"f1   : {f1_tmpt_model}")
+print(f"acc: {accuracy_score(y_true=y_test_j, y_pred=(y_pred_proba[:, 1] >= best_threshold).astype(int)) * 100:.1f}%")
+print(f"l2: {C_best}")
+
+
+
+
+#import joblib
+#joblib.dump(lr_model_best, './saved_models/lr_transformer.joblib')
