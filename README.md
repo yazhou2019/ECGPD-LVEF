@@ -160,7 +160,7 @@ The results are written to:
 res/results_71preditors_patient_level.csv
 ```
 
-The filename follows the output path used in the original code. The script also prints the EchoNext single-predictor AUROC, AUPRC, F1, and accuracy for each predictor.
+The filename follows the output path used in the original code. The script also prints the EchoNext single-predictor AUROC, AUPRC, and F1 for each predictor.
 
 ### Multi-predictor models
 
@@ -188,7 +188,9 @@ XGBoost with Transformer-PT scores:
 python ECGPD_LVEF_XGB_Transformer_PT.py
 ```
 
-Each script trains on the EchoNext training set, selects hyperparameters on the validation set, and reports AUROC, AUPRC, and F1 on the EchoNext internal test set with 95% bootstrap confidence intervals, plus accuracy at the selected threshold. The external ECG-Note evaluation is not included in these scripts.
+Each script trains on the EchoNext training set, selects hyperparameters on the validation set, and reports AUROC, AUPRC, and F1 on the EchoNext internal test set with 95% bootstrap confidence intervals.
+
+
 
 The saved model files are:
 
