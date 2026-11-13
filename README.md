@@ -58,9 +58,9 @@ The external ECG-Note cohort construction resource is provided in the next secti
 
 ## Data and Model Resources
 
-| Resource                                         | Link           |
-| ------------------------------------------------ | -------------- |
-| External ECG-Note cohort construction (MIMIC-IV) | [XXXXX](XXXXX) |
+| Resource                                         | Link                                                   |
+| ------------------------------------------------ | ------------------------------------------------------ |
+| External ECG-Note cohort construction (MIMIC-IV) | <https://github.com/Tianxiang-Hao/MIMIC-ECG-Note-LVEF> |
 
 Source-to-file mapping:
 
@@ -123,7 +123,7 @@ This release consumes precomputed 71-dimensional predictor scores. Raw ECG wavef
 
 ### External ECG-Note Cohort
 
-The external test set in the paper consists of 16,017 ECG-Note pairs from 16,017 patients, including 2,517 low-LVEF cases. It was constructed from MIMIC-IV (3.1), MIMIC-IV-ECG (1.0), and MIMIC-IV-Note (2.2). The construction resource is [XXXXX](XXXXX).
+The external test set in the paper consists of 16,017 ECG-Note pairs from 16,017 patients, including 2,517 low-LVEF cases. It was constructed from MIMIC-IV (3.1), MIMIC-IV-ECG (1.0), and MIMIC-IV-Note (2.2). The construction resource is <https://github.com/Tianxiang-Hao/MIMIC-ECG-Note-LVEF>.
 
 ## Environment
 
@@ -225,7 +225,7 @@ The main results for low-LVEF detection are reproduced below from the paper. All
 
 The Columbia mini baseline refers to the official end-to-end model from [Poterucha et al., Nature 2025](https://doi.org/10.1038/s41586-025-09227-0).
 
-Values in the internal-test rows are those reported in the paper; re-running the scripts may produce small differences due to library versions and hardware. The external ECG-Note rows require the external cohort pipeline, which is available on XXXX.
+Values in the internal-test rows are those reported in the paper; re-running the scripts may produce small differences due to library versions and hardware. The external ECG-Note rows require the external cohort pipeline, which is available on <https://github.com/Tianxiang-Hao/MIMIC-ECG-Note-LVEF>.
 
 
 Columbia mini is the official end-to-end baseline on the internal EchoNext test set, where all seven tabular features are available and the model can be applied directly. In the external ECG-Note cohort, it is included as a secondary comparison because the required tabular features cannot be obtained directly from MIMIC-IV.
