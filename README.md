@@ -190,8 +190,6 @@ python ECGPD_LVEF_XGB_Transformer_PT.py
 
 Each script trains on the EchoNext training set, selects hyperparameters on the validation set, and reports AUROC, AUPRC, and F1 on the EchoNext internal test set with 95% bootstrap confidence intervals.
 
-
-
 The saved model files are:
 
 | Model               | Transformer                             | Transformer-PT                             |
@@ -225,7 +223,7 @@ The main results for low-LVEF detection are reproduced below from the paper. All
 
 The Columbia mini baseline refers to the official end-to-end model from [Poterucha et al., Nature 2025](https://doi.org/10.1038/s41586-025-08627-0).
 
-Values in the internal-test rows are those reported in the paper; re-running the scripts may produce small differences due to library versions and hardware. The external ECG-Note rows require the external cohort pipeline and are not reproduced by this release.
+Values in the internal-test rows are those reported in the paper; re-running the scripts may produce small differences due to library versions and hardware. The external ECG-Note rows require the external cohort pipeline, which is available on XXXX.
 
 The external Columbia mini comparison is secondary because five tabular features required by that model were not directly available in MIMIC-IV and were reconstructed from fiducial points provided by MIMIC-IV-ECG.
 
