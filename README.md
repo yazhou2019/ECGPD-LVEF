@@ -13,7 +13,7 @@ ECGPD-LVEF is an ECG-based Predictor-Driven framework for detecting low left ven
 - **Single-predictor approach:** each diagnostic score is evaluated independently as a predictor of low LVEF, without task-specific training on the EchoNext cohort (zero-shot-like inference).
 - **Multi-predictor approach:** the 71 diagnostic scores are jointly modeled with lightweight tabular models, using Logistic regression or XGBoost.
 
-The paper evaluates the framework on the internal EchoNext test set and an external ECG-Note cohort derived from MIMIC-IV. It further reports predictor-level interpretability, SHAP analyses, subgroup analyses, and comparisons with the official Columbia mini end-to-end baseline ([Poterucha et al., Nature 2025](https://doi.org/10.1038/s41586-025-08627-0)).
+The paper evaluates the framework on the internal EchoNext test set and an external ECG-Note cohort derived from MIMIC-IV. It further reports predictor-level interpretability, SHAP analyses, subgroup analyses, and comparisons with the official Columbia mini end-to-end baseline ([Poterucha et al., Nature 2025](https://doi.org/10.1038/s41586-025-09227-0)).
 
 **Citation:** If you use this code, the derived predictor scores, or the reported results, please cite the main paper and the relevant upstream models/datasets. See [Citation](#citation).
 
@@ -223,7 +223,7 @@ The main results for low-LVEF detection are reproduced below from the paper. All
 | ECG-Note external | Columbia mini (secondary comparison) | -                   | -                   |     80.8 (79.9-81.7) |     45.8 (43.7-47.7) |     47.7 (46.3-49.1) |
 | ECG-Note external | **ECGPD-LVEF**                       | **Transformer-PT**  | **XGBoost**         | **86.9 (86.2-87.7)** | **57.6 (55.6-59.7)** | **53.8 (52.5-55.0)** |
 
-The Columbia mini baseline refers to the official end-to-end model from [Poterucha et al., Nature 2025](https://doi.org/10.1038/s41586-025-08627-0).
+The Columbia mini baseline refers to the official end-to-end model from [Poterucha et al., Nature 2025](https://doi.org/10.1038/s41586-025-09227-0).
 
 Values in the internal-test rows are those reported in the paper; re-running the scripts may produce small differences due to library versions and hardware. The external ECG-Note rows require the external cohort pipeline, which is available on XXXX.
 
@@ -256,7 +256,7 @@ Na Y, Park M, Tae Y, Joo S. Guiding masked representation learning to capture sp
 
 **Columbia mini baseline**
 
-Poterucha TJ, Jing L, Ricart RP, et al. Detecting structural heart disease from electrocardiograms using AI. Nature. 2025;644(8075):221-30. <https://doi.org/10.1038/s41586-025-08627-0>
+Poterucha TJ, Jing L, Ricart RP, et al. Detecting structural heart disease from electrocardiograms using AI. Nature. 2025;644(8075):221-30. <https://doi.org/10.1038/s41586-025-09227-0>
 
 **Datasets**
 
