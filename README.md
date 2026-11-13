@@ -11,7 +11,7 @@ ECGPD-LVEF is an ECG-based Predictor-Driven framework for detecting low left ven
 - **Single-predictor approach:** each diagnostic score is evaluated independently as a predictor of low LVEF, without task-specific training on the EchoNext cohort (zero-shot-like inference).
 - **Multi-predictor approach:** the 71 diagnostic scores are jointly modeled with lightweight tabular models, using Logistic regression or XGBoost.
 
-The paper evaluates the framework on the internal EchoNext test set and an external ECG-Note cohort derived from MIMIC-IV. It further reports predictor-level interpretability, SHAP analyses, subgroup analyses, and comparisons with the official Columbia mini end-to-end baseline ([Poterucha et al., Nature 2025](https://doi.org/10.1038/s41586-025-08627-0)).
+The paper evaluates the framework on the internal EchoNext test set and an external ECG-Note cohort derived from MIMIC-IV. It further reports predictor-level interpretability, SHAP analyses, subgroup analyses, and comparisons with the official Columbia mini end-to-end baseline ([Poterucha et al., Nature 2025](https://doi.org/10.1038/s41586-025-09227-0)).
 
 **Citation:** If you use this code, the derived predictor scores, or the reported results, please cite the main paper and the relevant upstream models/datasets. See [Citation](#citation).
 
@@ -104,6 +104,7 @@ EchoNext inputs:
 | `data/feature_valid_original.pth`          | `(4626, 71)`  | Transformer (ST-MEM) diagnostic scores on the validation set.                                                         |
 | `data/feature_test_original.pth`           | `(5442, 71)`  | Transformer (ST-MEM) diagnostic scores on the test set.                                                               |
 
+
 PTB-XL predictor-extraction inputs:
 
 | Path                                              | Description                                                                                                                                                                                                 |
@@ -117,7 +118,6 @@ Rows in the tabular `.npy` files must follow the same order as the corresponding
 The rows of `saved_models/st_mem_pt/best-MultilabelAUROC.pth` must follow the order of `data/all_test.csv` so that the `FILE_NAME` matching in the single-predictor script is correct.
 
 This release consumes precomputed 71-dimensional predictor scores. Raw ECG waveforms and the ST-MEM inference code are not included.
-
 
 ### External ECG-Note Cohort
 
@@ -253,7 +253,7 @@ Na Y, Park M, Tae Y, Joo S. Guiding masked representation learning to capture sp
 
 **Columbia mini baseline**
 
-Poterucha TJ, Jing L, Ricart RP, et al. Detecting structural heart disease from electrocardiograms using AI. Nature. 2025;644(8075):221-30. <https://doi.org/10.1038/s41586-025-08627-0>
+Poterucha TJ, Jing L, Ricart RP, et al. Detecting structural heart disease from electrocardiograms using AI. Nature. 2025;644(8075):221-30. <https://doi.org/10.1038/s41586-025-09227-0>
 
 **Datasets**
 
