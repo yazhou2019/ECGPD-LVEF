@@ -26,17 +26,17 @@ The paper evaluates the framework on the internal EchoNext test set and an exter
 
 ## Repository Structure
 
-| Path | Description |
-| --- | --- |
-| `ECG_preprocess_LVEF.py` | Loads EchoNext tabular features, metadata, and precomputed 71-dimensional predictor scores; aligns records and builds the feature/label matrices. |
-| `ECGPD_LVEF_Single_Predictor_patient_level.py` | Evaluates the predictor extractor on PTB-XL and performs the single-predictor low-LVEF analysis on the EchoNext internal test set. |
-| `ECGPD_LVEF_LR_Transformer.py` | Trains and evaluates Logistic regression using the 71 Transformer scores. |
-| `ECGPD_LVEF_LR_Transformer_PT.py` | Trains and evaluates Logistic regression using the 71 Transformer-PT scores. |
-| `ECGPD_LVEF_XGB_Transformer.py` | Trains and evaluates XGBoost using the 71 Transformer scores. |
-| `ECGPD_LVEF_XGB_Transformer_PT.py` | Trains and evaluates XGBoost using the 71 Transformer-PT scores. |
-| `data/` | Input tables, metadata, and precomputed predictor scores. |
-| `saved_models/` | Trained Logistic regression and XGBoost models, plus the PTB-XL prediction checkpoint used by the single-predictor script. |
-| `res/` | Output directory for the single-predictor evaluation table. |
+| Path                                           | Description                                                                                                                                       |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ECG_preprocess_LVEF.py`                       | Loads EchoNext tabular features, metadata, and precomputed 71-dimensional predictor scores; aligns records and builds the feature/label matrices. |
+| `ECGPD_LVEF_Single_Predictor_patient_level.py` | Evaluates the predictor extractor on PTB-XL and performs the single-predictor low-LVEF analysis on the EchoNext internal test set.                |
+| `ECGPD_LVEF_LR_Transformer.py`                 | Trains and evaluates Logistic regression using the 71 Transformer scores.                                                                         |
+| `ECGPD_LVEF_LR_Transformer_PT.py`              | Trains and evaluates Logistic regression using the 71 Transformer-PT scores.                                                                      |
+| `ECGPD_LVEF_XGB_Transformer.py`                | Trains and evaluates XGBoost using the 71 Transformer scores.                                                                                     |
+| `ECGPD_LVEF_XGB_Transformer_PT.py`             | Trains and evaluates XGBoost using the 71 Transformer-PT scores.                                                                                  |
+| `data/`                                        | Input tables, metadata, and precomputed predictor scores.                                                                                         |
+| `saved_models/`                                | Trained Logistic regression and XGBoost models, plus the PTB-XL prediction checkpoint used by the single-predictor script.                        |
+| `res/`                                         | Output directory for the single-predictor evaluation table.                                                                                       |
 
 ## Scope of This Release
 
@@ -56,18 +56,18 @@ The external ECG-Note cohort construction resource is provided in the next secti
 
 ## Data and Model Resources
 
-| Resource | Link |
-| --- | --- |
+| Resource                                         | Link           |
+| ------------------------------------------------ | -------------- |
 | External ECG-Note cohort construction (MIMIC-IV) | [XXXXX](XXXXX) |
 
 Source-to-file mapping:
 
-| Source | Link | Associated files |
-| --- | --- | --- |
-| EchoNext (1.1.0) | [PhysioNet EchoNext 1.1.0](https://physionet.org/content/echonext/1.1.0/) | `data/echonext_metadata_100k.csv`, `data/EchoNext_train_tabular_features.npy`, `data/EchoNext_val_tabular_features.npy`, `data/EchoNext_test_tabular_features.npy` |
-| PTB-XL (1.0.1) | [PhysioNet PTB-XL 1.0.1](https://physionet.org/content/ptb-xl/1.0.1/) | `data/ptbxl_database.csv` |
-| Transformer (ST-MEM) | [ST-MEM repository](https://github.com/vuno/ST-MEM/tree/main) | `data/feature_train_original.pth`, `data/feature_valid_original.pth`, `data/feature_test_original.pth` |
-| Transformer-PT | [arXiv:2509.12991](https://arxiv.org/abs/2509.12991) | `data/feature_train.pth`, `data/feature_val.pth`, `data/feature_test.pth`, `data/all_test.csv`, `saved_models/st_mem_pt/best-MultilabelAUROC.pth` |
+| Source               | Link                                                                      | Associated files                                                                                                                                                   |
+| -------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| EchoNext (1.1.0)     | [PhysioNet EchoNext 1.1.0](https://physionet.org/content/echonext/1.1.0/) | `data/echonext_metadata_100k.csv`, `data/EchoNext_train_tabular_features.npy`, `data/EchoNext_val_tabular_features.npy`, `data/EchoNext_test_tabular_features.npy` |
+| PTB-XL (1.0.1)       | [PhysioNet PTB-XL 1.0.1](https://physionet.org/content/ptb-xl/1.0.1/)     | `data/ptbxl_database.csv`                                                                                                                                          |
+| Transformer (ST-MEM) | [ST-MEM repository](https://github.com/vuno/ST-MEM/tree/main)             | `data/feature_train_original.pth`, `data/feature_valid_original.pth`, `data/feature_test_original.pth`                                                             |
+| Transformer-PT       | [arXiv:2509.12991](https://arxiv.org/abs/2509.12991)                      | `data/feature_train.pth`, `data/feature_val.pth`, `data/feature_test.pth`, `data/all_test.csv`, `saved_models/st_mem_pt/best-MultilabelAUROC.pth`                  |
 
 `data/all_test.csv` is built from the PTB-XL test split using Transformer-PT, and `saved_models/st_mem_pt/best-MultilabelAUROC.pth` contains the corresponding Transformer-PT predictions and labels. Neither file is a raw PTB-XL download.
 
@@ -75,13 +75,13 @@ The external ECG-Note cohort is built from [MIMIC-IV 3.1](https://physionet.org/
 
 ### Cohorts
 
-| Cohort | Role in the study | ECGs | Low-LVEF cases |
-| --- | --- | ---: | ---: |
-| EchoNext training set | Multi-predictor model training | 72,475 | 16,962 |
-| EchoNext validation set | Hyperparameter tuning, predictor ordering, and threshold selection | 4,626 | 866 |
-| EchoNext test set | Internal test set | 5,442 | 962 |
-| ECG-Note (MIMIC-IV) | External test set | 16,017 | 2,517 |
-| PTB-XL test set | Predictor-extraction evaluation for 71 ECG findings | 2,203 | n/a |
+| Cohort                  | Role in the study                                                  |   ECGs | Low-LVEF cases |
+| ----------------------- | ------------------------------------------------------------------ | -----: | -------------: |
+| EchoNext training set   | Multi-predictor model training                                     | 72,475 |         16,962 |
+| EchoNext validation set | Hyperparameter tuning, predictor ordering, and threshold selection |  4,626 |            866 |
+| EchoNext test set       | Internal test set                                                  |  5,442 |            962 |
+| ECG-Note (MIMIC-IV)     | External test set                                                  | 16,017 |          2,517 |
+| PTB-XL test set         | Predictor-extraction evaluation for 71 ECG findings                |  2,203 |            n/a |
 
 EchoNext follows its official patient-level split protocol, with no patient overlap between training, validation, and test sets. Under this protocol, only the latest ECG is retained for each patient in the validation and test sets. The external ECG-Note cohort contains one ECG-Note pair per patient.
 
@@ -91,26 +91,26 @@ EchoNext ECG-ECHO pairs were collected at Columbia University Irving Medical Cen
 
 EchoNext inputs:
 
-| Path | Shape | Description |
-| --- | --- | --- |
-| `data/EchoNext_train_tabular_features.npy` | `(72475, 7)` | Seven EchoNext tabular features for the training set. |
-| `data/EchoNext_val_tabular_features.npy` | `(4626, 7)` | Seven EchoNext tabular features for the validation set. |
-| `data/EchoNext_test_tabular_features.npy` | `(5442, 7)` | Seven EchoNext tabular features for the test set. |
-| `data/echonext_metadata_100k.csv` | - | EchoNext metadata with `split`, `sex`, and the 13 echocardiographic label columns listed in `ECG_preprocess_LVEF.py`. |
-| `data/feature_train.pth` | `(72475, 71)` | Transformer-PT diagnostic scores on the training set. |
-| `data/feature_val.pth` | `(4626, 71)` | Transformer-PT diagnostic scores on the validation set. |
-| `data/feature_test.pth` | `(5442, 71)` | Transformer-PT diagnostic scores on the test set. |
-| `data/feature_train_original.pth` | `(72475, 71)` | Transformer (ST-MEM) diagnostic scores on the training set. |
-| `data/feature_valid_original.pth` | `(4626, 71)` | Transformer (ST-MEM) diagnostic scores on the validation set. |
-| `data/feature_test_original.pth` | `(5442, 71)` | Transformer (ST-MEM) diagnostic scores on the test set. |
+| Path                                       | Shape         | Description                                                                                                           |
+| ------------------------------------------ | ------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `data/EchoNext_train_tabular_features.npy` | `(72475, 7)`  | Seven EchoNext tabular features for the training set.                                                                 |
+| `data/EchoNext_val_tabular_features.npy`   | `(4626, 7)`   | Seven EchoNext tabular features for the validation set.                                                               |
+| `data/EchoNext_test_tabular_features.npy`  | `(5442, 7)`   | Seven EchoNext tabular features for the test set.                                                                     |
+| `data/echonext_metadata_100k.csv`          | -             | EchoNext metadata with `split`, `sex`, and the 13 echocardiographic label columns listed in `ECG_preprocess_LVEF.py`. |
+| `data/feature_train.pth`                   | `(72475, 71)` | Transformer-PT diagnostic scores on the training set.                                                                 |
+| `data/feature_val.pth`                     | `(4626, 71)`  | Transformer-PT diagnostic scores on the validation set.                                                               |
+| `data/feature_test.pth`                    | `(5442, 71)`  | Transformer-PT diagnostic scores on the test set.                                                                     |
+| `data/feature_train_original.pth`          | `(72475, 71)` | Transformer (ST-MEM) diagnostic scores on the training set.                                                           |
+| `data/feature_valid_original.pth`          | `(4626, 71)`  | Transformer (ST-MEM) diagnostic scores on the validation set.                                                         |
+| `data/feature_test_original.pth`           | `(5442, 71)`  | Transformer (ST-MEM) diagnostic scores on the test set.                                                               |
 
 PTB-XL predictor-extraction inputs:
 
-| Path | Description |
-| --- | --- |
-| `data/all_test.csv` | PTB-XL test-set index derived using Transformer-PT (2,203 records; `FILE_NAME`, `SAMPLE_RATE`, `HR`, and `LABEL`). The single-predictor script matches `FILE_NAME` to the Transformer-PT prediction matrix. |
-| `data/ptbxl_database.csv` | PTB-XL metadata downloaded from PTB-XL 1.0.1. `strat_fold == 10` is used to group records by `patient_id` for patient-level bootstrap. |
-| `saved_models/st_mem_pt/best-MultilabelAUROC.pth` | Transformer-PT prediction results generated on PTB-XL for the 71 ECG findings. |
+| Path                                              | Description                                                                                                                                                                                                 |
+| ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `data/all_test.csv`                               | PTB-XL test-set index derived using Transformer-PT (2,203 records; `FILE_NAME`, `SAMPLE_RATE`, `HR`, and `LABEL`). The single-predictor script matches `FILE_NAME` to the Transformer-PT prediction matrix. |
+| `data/ptbxl_database.csv`                         | PTB-XL metadata downloaded from PTB-XL 1.0.1. `strat_fold == 10` is used to group records by `patient_id` for patient-level bootstrap.                                                                      |
+| `saved_models/st_mem_pt/best-MultilabelAUROC.pth` | Transformer-PT prediction results generated on PTB-XL for the 71 ECG findings.                                                                                                                              |
 
 Rows in the tabular `.npy` files must follow the same order as the corresponding EchoNext metadata rows. `ECG_preprocess_LVEF.py` checks this alignment using the `sex` column; a `no match` message indicates that the row order must be fixed before running the analysis. The predictor `.pth` files must also follow the same record order because they are concatenated with the tabular features.
 
@@ -118,9 +118,10 @@ The rows of `saved_models/st_mem_pt/best-MultilabelAUROC.pth` must follow the or
 
 This release consumes precomputed 71-dimensional predictor scores. Raw ECG waveforms and the ST-MEM inference code are not included.
 
+
 ### External ECG-Note Cohort
 
-The external test set in the paper consists of 16,017 ECG-Note pairs from 16,017 patients, including 2,517 low-LVEF cases. It was constructed from MIMIC-IV (3.1), MIMIC-IV-ECG (1.0), and MIMIC-IV-Note (2.2). The construction resource is [XXXXX](XXXXX); the external evaluation is not implemented by the scripts in this release.
+The external test set in the paper consists of 16,017 ECG-Note pairs from 16,017 patients, including 2,517 low-LVEF cases. It was constructed from MIMIC-IV (3.1), MIMIC-IV-ECG (1.0), and MIMIC-IV-Note (2.2). The construction resource is [XXXXX](XXXXX).
 
 ## Environment
 
@@ -191,10 +192,10 @@ Each script trains on the EchoNext training set, selects hyperparameters on the 
 
 The saved model files are:
 
-| Model | Transformer | Transformer-PT |
-| --- | --- | --- |
-| Logistic regression | `saved_models/lr_transformer.joblib` | `saved_models/lr_transformer_pt.joblib` |
-| XGBoost | `saved_models/xgboost_transformer.json` | `saved_models/xgboost_transformer_pt.json` |
+| Model               | Transformer                             | Transformer-PT                             |
+| ------------------- | --------------------------------------- | ------------------------------------------ |
+| Logistic regression | `saved_models/lr_transformer.joblib`    | `saved_models/lr_transformer_pt.joblib`    |
+| XGBoost             | `saved_models/xgboost_transformer.json` | `saved_models/xgboost_transformer_pt.json` |
 
 The multi-predictor scripts print the evaluation results only. To regenerate the saved models, uncomment the corresponding `joblib.dump(...)` or `xgb_model_best.save_model(...)` line at the end of each script.
 
@@ -210,15 +211,15 @@ The multi-predictor scripts print the evaluation results only. To regenerate the
 
 The main results for low-LVEF detection are reproduced below from the paper. All values are percentages, with 95% CIs in parentheses.
 
-| Test set | Framework | Predictor extractor | Tabular model | AUROC | AUPRC | F1 |
-| --- | --- | --- | --- | ---: | ---: | ---: |
-| EchoNext internal | Columbia mini (official baseline) | - | - | 85.2 (83.9-86.5) | 59.9 (56.6-63.3) | 57.9 (55.4-60.3) |
-| EchoNext internal | ECGPD-LVEF | Transformer | Logistic regression | 84.5 (83.1-85.9) | 56.8 (53.4-60.3) | 57.0 (54.6-59.7) |
-| EchoNext internal | ECGPD-LVEF | Transformer-PT | Logistic regression | 84.9 (83.6-86.3) | 57.8 (54.6-61.2) | 58.5 (56.2-60.8) |
-| EchoNext internal | ECGPD-LVEF | Transformer | XGBoost | 84.9 (83.5-86.2) | 58.5 (55.1-61.7) | 57.6 (55.1-60.1) |
-| EchoNext internal | **ECGPD-LVEF** | **Transformer-PT** | **XGBoost** | **88.4 (87.1-89.5)** | **69.2 (66.2-72.0)** | **64.5 (62.2-66.7)** |
-| ECG-Note external | Columbia mini (secondary comparison) | - | - | 80.8 (79.9-81.7) | 45.8 (43.7-47.7) | 47.7 (46.3-49.1) |
-| ECG-Note external | **ECGPD-LVEF** | **Transformer-PT** | **XGBoost** | **86.9 (86.2-87.7)** | **57.6 (55.6-59.7)** | **53.8 (52.5-55.0)** |
+| Test set          | Framework                            | Predictor extractor | Tabular model       |                AUROC |                AUPRC |                   F1 |
+| ----------------- | ------------------------------------ | ------------------- | ------------------- | -------------------: | -------------------: | -------------------: |
+| EchoNext internal | Columbia mini (official baseline)    | -                   | -                   |     85.2 (83.9-86.5) |     59.9 (56.6-63.3) |     57.9 (55.4-60.3) |
+| EchoNext internal | ECGPD-LVEF                           | Transformer         | Logistic regression |     84.5 (83.1-85.9) |     56.8 (53.4-60.3) |     57.0 (54.6-59.7) |
+| EchoNext internal | ECGPD-LVEF                           | Transformer-PT      | Logistic regression |     84.9 (83.6-86.3) |     57.8 (54.6-61.2) |     58.5 (56.2-60.8) |
+| EchoNext internal | ECGPD-LVEF                           | Transformer         | XGBoost             |     84.9 (83.5-86.2) |     58.5 (55.1-61.7) |     57.6 (55.1-60.1) |
+| EchoNext internal | **ECGPD-LVEF**                       | **Transformer-PT**  | **XGBoost**         | **88.4 (87.1-89.5)** | **69.2 (66.2-72.0)** | **64.5 (62.2-66.7)** |
+| ECG-Note external | Columbia mini (secondary comparison) | -                   | -                   |     80.8 (79.9-81.7) |     45.8 (43.7-47.7) |     47.7 (46.3-49.1) |
+| ECG-Note external | **ECGPD-LVEF**                       | **Transformer-PT**  | **XGBoost**         | **86.9 (86.2-87.7)** | **57.6 (55.6-59.7)** | **53.8 (52.5-55.0)** |
 
 The Columbia mini baseline refers to the official end-to-end model from [Poterucha et al., Nature 2025](https://doi.org/10.1038/s41586-025-08627-0).
 
@@ -226,9 +227,7 @@ Values in the internal-test rows are those reported in the paper; re-running the
 
 The external Columbia mini comparison is secondary because five tabular features required by that model were not directly available in MIMIC-IV and were reconstructed from fiducial points provided by MIMIC-IV-ECG.
 
-For predictor extraction on PTB-XL, Transformer-PT achieved a macro AUROC of 94.5%, AUPRC of 41.4%, and F1 of 38.3%, compared with an AUROC of 89.8% and AUPRC of 30.7% for the original Transformer. In the single-predictor analysis, NORM was the strongest individual predictor, with an internal AUROC of 81.0%, AUPRC of 47.4%, and F1 of 51.4%, and an external AUROC of 78.8%, AUPRC of 36.2%, and F1 of 42.3%. Eight predictors (NORM, ILBBB, INJAL, ISCLA, ANEUR, ISCAL, ASMI, and SVARR) achieved internal AUROCs of 71.0%-81.0%, and five maintained AUROCs of 70.7%-78.8% in the external cohort.
-
-## Implementation Notes
+Implementation Notes
 
 - The target column is `lvef_lte_45_flag` (`use_index = 0`).
 - In the single-predictor script, the `NORM` and `SR` scores are negated because higher values indicate a more normal ECG and therefore a lower risk of low LVEF. The remaining predictors are used directly.
@@ -246,23 +245,23 @@ Zhou Y, Hao T, Cai Z, Zhu H, He K, Liu J, Fan X, Yuan J. Detecting low left vent
 
 **Transformer-PT**
 
-Zhou Y, Yang Y, Fan X, Zhao W. Bridging performance gaps for ECG foundation models: a post-training strategy. arXiv:2509.12991, 2025. [https://arxiv.org/abs/2509.12991](https://arxiv.org/abs/2509.12991)
+Zhou Y, Yang Y, Fan X, Zhao W. Bridging performance gaps for ECG foundation models: a post-training strategy. arXiv:2509.12991, 2025. <https://arxiv.org/abs/2509.12991>
 
 **Transformer (ST-MEM)**
 
-Na Y, Park M, Tae Y, Joo S. Guiding masked representation learning to capture spatio-temporal relationship of electrocardiogram. In: Proceedings of the 12th International Conference on Learning Representations (ICLR). Vienna, Austria; 2024:15012-35. [https://github.com/vuno/ST-MEM/tree/main](https://github.com/vuno/ST-MEM/tree/main)
+Na Y, Park M, Tae Y, Joo S. Guiding masked representation learning to capture spatio-temporal relationship of electrocardiogram. In: Proceedings of the 12th International Conference on Learning Representations (ICLR). Vienna, Austria; 2024:15012-35. <https://github.com/vuno/ST-MEM/tree/main>
 
 **Columbia mini baseline**
 
-Poterucha TJ, Jing L, Ricart RP, et al. Detecting structural heart disease from electrocardiograms using AI. Nature. 2025;644(8075):221-30. [https://doi.org/10.1038/s41586-025-08627-0](https://doi.org/10.1038/s41586-025-08627-0)
+Poterucha TJ, Jing L, Ricart RP, et al. Detecting structural heart disease from electrocardiograms using AI. Nature. 2025;644(8075):221-30. <https://doi.org/10.1038/s41586-025-08627-0>
 
 **Datasets**
 
-- **EchoNext 1.1.0:** Elias P, Finer J. Echonext: a dataset for detecting echocardiogram-confirmed structural heart disease from ECGs. PhysioNet. 2025. [https://doi.org/10.13026/3ykd-bf14](https://doi.org/10.13026/3ykd-bf14)
-- **PTB-XL 1.0.1:** Wagner P, Strodthoff N, Bousseljot RD, et al. PTB-XL, a large publicly available electrocardiography dataset. Sci Data. 2020;7(1):154. [https://physionet.org/content/ptb-xl/1.0.1/](https://physionet.org/content/ptb-xl/1.0.1/)
-- **MIMIC-IV 3.1:** Johnson A, Bulgarelli L, Pollard T, et al. MIMIC-IV. PhysioNet. 2024. [https://doi.org/10.13026/kpb9-mt58](https://doi.org/10.13026/kpb9-mt58)
-- **MIMIC-IV-ECG 1.0:** Gow B, Pollard T, Nathanson LA, et al. MIMIC-IV-ECG: diagnostic electrocardiogram matched subset. PhysioNet. 2023. [https://doi.org/10.13026/4nqg-sb35](https://doi.org/10.13026/4nqg-sb35)
-- **MIMIC-IV-Note 2.2:** Johnson A, Pollard T, Horng S, Celi LA, Mark R. MIMIC-IV-Note: deidentified free-text clinical notes. PhysioNet. 2023. [https://doi.org/10.13026/1n74-ne17](https://doi.org/10.13026/1n74-ne17)
+- **EchoNext 1.1.0:** Elias P, Finer J. Echonext: a dataset for detecting echocardiogram-confirmed structural heart disease from ECGs. PhysioNet. 2025. <https://doi.org/10.13026/3ykd-bf14>
+- **PTB-XL 1.0.1:** Wagner P, Strodthoff N, Bousseljot RD, et al. PTB-XL, a large publicly available electrocardiography dataset. Sci Data. 2020;7(1):154. <https://physionet.org/content/ptb-xl/1.0.1/>
+- **MIMIC-IV 3.1:** Johnson A, Bulgarelli L, Pollard T, et al. MIMIC-IV. PhysioNet. 2024. <https://doi.org/10.13026/kpb9-mt58>
+- **MIMIC-IV-ECG 1.0:** Gow B, Pollard T, Nathanson LA, et al. MIMIC-IV-ECG: diagnostic electrocardiogram matched subset. PhysioNet. 2023. <https://doi.org/10.13026/4nqg-sb35>
+- **MIMIC-IV-Note 2.2:** Johnson A, Pollard T, Horng S, Celi LA, Mark R. MIMIC-IV-Note: deidentified free-text clinical notes. PhysioNet. 2023. <https://doi.org/10.13026/1n74-ne17>
 
 Please also follow the licenses and terms of use of the upstream models and datasets.
 
